@@ -134,7 +134,7 @@ See the `sample_output/` folder for examples.
 
 **Harshit Vishnoi**  
 This project was built for the BeyondChats AI Internship Assignment.  
-Feel free to contact me via Internshala or connect on [LinkedIn](https://linkedin.com/in/harshitvishnoi).
+Feel free to contact me via Internshala or connect on [LinkedIn](https://linkedin.com/in/harshitvishnoi-ai).
 
 ---
 
