@@ -1,136 +1,142 @@
+
 # 🧠 Reddit User Persona Generator
 
-This project is built as part of the **Generative AI Internship Assignment** at **BeyondChats**.  
-It scrapes a Reddit user's profile, extracts all posts and comments, and uses a **Groq-hosted open-source LLM** (e.g., Mixtral, LLaMA 3) to generate a detailed user **persona** with **citations** from their content.
+This project was built as part of the **Generative AI Internship Assignment** at **BeyondChats**.
+
+It takes a Reddit username, scrapes all available posts and comments, and uses a **Groq-hosted open-source LLM** (like Mixtral or LLaMA 3) to generate a detailed **user persona** with **citations** from the Reddit content.
 
 ---
 
 ## 🚀 Features
 
-- ✅ Scrapes all posts and comments of a Reddit user
-- ✅ Builds a multi-trait persona (interests, tone, humor, ideology, etc.)
-- ✅ Uses free open-source LLMs via [Groq](https://console.groq.com)
-- ✅ Chunks long content and merges persona insights
-- ✅ Cites each claim with Reddit post or comment link
-- ✅ Handles invalid users and users with no content
-
----
-
-## 🧠 Use Cases
-
-- Behavioral analysis
-- Market segmentation
-- Audience profiling
-- Product personalization
-- Research and content moderation tools
+- ✅ Scrapes all comments and posts from a given Reddit user
+- ✅ Uses Groq-hosted LLMs to infer behavioral traits
+- ✅ Generates personas including:
+  - Interests
+  - Writing style
+  - Ideology
+  - Humor/sarcasm
+  - Emotional tone
+- ✅ Cites Reddit posts/comments used for inference
+- ✅ Graceful error handling (invalid users, empty content, API issues)
 
 ---
 
 ## 🧰 Tech Stack
 
-| Tool            | Purpose                                    |
+| Tool            | Purpose                                     |
 |-----------------|---------------------------------------------|
-| Python          | Main scripting language                    |
-| PRAW            | Reddit API wrapper                         |
-| Groq Python SDK | Access Mixtral, LLaMA3 (fast LLM inference) |
-| dotenv          | Manage API keys securely                   |
+| Python          | Core language                              |
+| PRAW            | Reddit scraping via Reddit API             |
+| Groq SDK        | Access Mixtral, LLaMA 3 via Groq platform  |
+| python-dotenv   | Secure API key management                  |
 | argparse        | Command-line interface                     |
-| tqdm (optional) | Chunk progress display                     |
+| tqdm (optional) | Progress display for chunked prompts       |
 
 ---
 
-## 🗂️ Project Structure
+## 📁 Project Structure
 
+```
 reddit_persona_generator/
-├── persona_generator.py # Main controller script
-├── reddit_scraper.py # Scrapes Reddit posts and comments
-├── groq_persona_builder.py # Persona generation logic using Groq
-├── requirements.txt # Required dependencies
-├── .env # Store Groq + Reddit API keys here
-├── README.md # This file
-└── sample_output/ # Folder for persona outputs
-├── kojied_persona.txt
-└── Hungry-Move-6603_persona.txt
-
+├── persona_generator.py         # Main entry point
+├── reddit_scraper.py            # Fetches Reddit posts & comments
+├── groq_persona_builder.py      # Handles persona generation using Groq LLM
+├── requirements.txt             # Python dependencies
+├── .env                         # Store Groq & Reddit API keys (excluded from Git)
+├── README.md                    # Project documentation
+└── sample_output/               # Generated persona files
+    ├── kojied_persona.txt
+    └── Hungry-Move-6603_persona.txt
+```
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in the root directory with:
+Create a `.env` file in the root folder:
 
-```env
-GROQ_API_KEY=your_groq_key
+\`\`\`env
+GROQ_API_KEY=your_groq_api_key
 REDDIT_CLIENT_ID=your_reddit_client_id
 REDDIT_CLIENT_SECRET=your_reddit_secret
-🛠 Installation & Setup
-1. Clone this repository
-bash
-Copy
-Edit
+\`\`\`
+
+> ✅ [Get Groq key](https://console.groq.com)  
+> ✅ [Create Reddit app](https://www.reddit.com/prefs/apps) → choose "script" app
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the repository
+
+\`\`\`bash
 git clone https://github.com/yourusername/reddit-persona-generator.git
 cd reddit-persona-generator
-2. Install Python dependencies
-bash
-Copy
-Edit
+\`\`\`
+
+### 2. Install dependencies
+
+\`\`\`bash
 pip install -r requirements.txt
-3. Create .env file
-bash
-Copy
-Edit
-touch .env
-Add your credentials inside .env (see above).
+\`\`\`
 
-🚀 How to Use
-Run the script with any Reddit username:
+### 3. Add your `.env` credentials
 
-bash
-Copy
-Edit
+(see `.env` example above)
+
+---
+
+## 🧪 How to Use
+
+To generate a persona for any Reddit user:
+
+\`\`\`bash
 python persona_generator.py --username kojied
+\`\`\`
+
 This will:
+- Scrape the user's Reddit activity
+- Generate a detailed persona using Groq LLM
+- Save the output to `sample_output/kojied_persona.txt`
 
-Scrape Reddit data for kojied
+---
 
-Send content to Groq-hosted LLM (e.g., Mixtral-8x7B)
+## 📄 Sample Output
 
-Generate a persona with citations
+Each persona includes:
 
-Save the result to sample_output/kojied_persona.txt
+\`\`\`
+🎯 Interests: Gaming, NFTs, NYC, AI
+🧠 Writing Style: Casual, often humorous or sarcastic
+💬 Political Views: Progressive/liberal (if inferred)
+😂 Humor: Dry wit, irony, sarcasm
+📎 Citations: [source: https://reddit.com/r/example/...]
+\`\`\`
 
-📄 Sample Output
-The final persona includes:
+See the `sample_output/` folder for examples.
 
-diff
-Copy
-Edit
-🎯 Interests:
-- Gaming (Civilization V, Project Zomboid)
-- AI and ChatGPT
-- Finance, NFTs, and Crypto
-- Anime and Manga
+---
 
-✍️ Writing Style:
-- Informal, humorous, often sarcastic
+## ⚠️ Error Handling
 
-🧠 Ideological Views:
-- Progressive, critical of wealth inequality
+| Issue                                | What Happens                               |
+|-------------------------------------|--------------------------------------------|
+| Nonexistent Reddit username         | Gracefully exits with a message            |
+| No content to analyze               | Skips persona generation                   |
+| Invalid API keys or network issues  | Shows clear errors                         |
+| Groq API failures                   | Retries or logs reason                     |
 
-😂 Humor Style:
-- Witty, sarcastic, uses internet memes
+---
 
-📎 Citations:
-- [source: https://reddit.com/r/wallstreetbets/comments/fhp5ae/]
-- [source: https://reddit.com/r/warriors/comments/...]
-You can find these .txt files in the sample_output/ folder.
+## 📬 Contact
 
-⚠️ Error Handling
-Situation	Handled?	Behavior
-Reddit user does not exist	✅	Prints a user-friendly error message
-User has no public posts/comments	✅	Skips persona generation with warning
-Invalid Reddit API credentials	✅	Catches and logs Reddit API errors
-Groq API error (timeout/failure)	✅	Retries and then fails gracefully
-Missing --username argument	✅	argparse handles with proper message
+**Harshit Vishnoi**  
+This project was built for the BeyondChats AI Internship Assignment.  
+Feel free to contact me via Internshala or connect on [LinkedIn](https://linkedin.com/in/harshitvishnoi).
 
+---
+
+> ⚠️ Disclaimer: This project uses publicly available Reddit content and LLM-generated insights for academic/demo purposes only.
 
